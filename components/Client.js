@@ -2,11 +2,11 @@ import React from 'react';
 import {View} from 'react-native';
 import ClientGroup from './ClientGroup';
 
-export default function Client() {
+export default function Client({navigation}) {
   return (
     <View>
-      <ClientGroup />
-      <ClientGroup />
+      <ClientGroup navigation={navigation} />
+      <ClientGroup navigation={navigation} />
       <ClientGroup />
       <ClientGroup />
       <ClientGroup />

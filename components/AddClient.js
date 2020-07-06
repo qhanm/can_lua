@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableNativeFeedback,
   Keyboard,
 } from 'react-native';
+import QHColor from '../constant/Color';
 
 const DismissKeyBoard = ({children}) => (
   <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
@@ -14,36 +15,71 @@ const DismissKeyBoard = ({children}) => (
   </TouchableNativeFeedback>
 );
 
-function validateTextInput(value) {
-  console.log(value);
-}
+export default class AddClient extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShowError: false,
+      name: '',
+    };
 
-export default function AddClient() {
-  return (
-    <DismissKeyBoard>
-      <View style={styles.container}>
-        <View style={[styles.containerBody]}>
-          <Text style={styles.containerText}>Tên nhóm</Text>
-          <TextInput
-            onChangeText={(value) => this.validateTextInput(value)}
-            style={styles.containerInput}
-            maxLength={5}
-            placeholder="Tên nhóm không được để trống"
-          />
-        </View>
+    //this._showError = this._showError.bind(this);
+    this.validateTextInput = this.validateTextInput.bind(this);
+  }
+
+  validateTextInput(value) {
+    if (value.length >= 30) {
+      this.setState({
+        isShowError: true,
+      });
+      console.log(this.state.isShowError);
+    } else {
+      this.setState({
+        isShowError: false,
+      });
+    }
+    console.log(value.length);
+  }
+
+  _showError() {
+    if (this.state.isShowError) {
+      return (
         <View style={styles.containerBody}>
-          <Text>
-            Tên nhóm có thể là tên nghe, ngày cân lúa ..., Tên nhóm không quá 30
-            ký tự
-          </Text>
+          <Text style={{color: QHColor.red}}>Tên nhóm không được vượt quá 30 ký tự</Text>
         </View>
-        <TouchableOpacity
-          style={[styles.containerBody, {backgroundColor: 'red'}]}>
-          <Text style={{color: '#fff', alignItems: 'center'}}>Lưu</Text>
-        </TouchableOpacity>
-      </View>
-    </DismissKeyBoard>
-  );
+      );
+    } else {
+      return null;
+    }
+  }
+  render() {
+    return (
+      <DismissKeyBoard>
+        <View style={styles.container}>
+          <View style={[styles.containerBody]}>
+            <Text style={styles.containerText}>Tên nhóm</Text>
+            <TextInput
+              onChangeText={this.validateTextInput}
+              style={styles.containerInput}
+              maxLength={30}
+              placeholder="Tên nhóm không được để trống"
+            />
+          </View>
+          {this._showError()}
+          <View style={styles.containerBody}>
+            <Text>
+              Tên nhóm có thể là tên nghe, ngày cân lúa ..., Tên nhóm không quá
+              30 ký tự
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={[styles.containerBody, {backgroundColor: 'red'}]}>
+            <Text style={{color: '#fff', alignItems: 'center'}}>Lưu</Text>
+          </TouchableOpacity>
+        </View>
+      </DismissKeyBoard>
+    );
+  }
 }
 
 const styles = {

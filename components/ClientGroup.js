@@ -4,7 +4,7 @@ import Date from './Icons/Date';
 import Delete from './Icons/Delete';
 import Next from './Icons/Next';
 
-export default function ClientGroup() {
+export default function ClientGroup({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -17,7 +17,10 @@ export default function ClientGroup() {
             <Delete qhStyle={{marginRight: 5}} />
           </TouchableOpacity>
           <View>
-            <Text>Client - 0001</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('CustomerScreen')}>
+              <Text>Client - 0001</Text>
+            </TouchableOpacity>
           </View>
           <View>
             <Next qhStyle={{marginRight: 5}} />
